@@ -12865,7 +12865,7 @@ namespace Sif.Specification.DataModel.Au {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(DataType="time", IsNullable=true)]
+        [System.Xml.Serialization.XmlIgnoreAttribute()]//[System.Xml.Serialization.XmlElementAttribute(DataType="time", IsNullable=true)]
         public System.Nullable<System.DateTime> StartTime {
             get {
                 return this.startTimeField;
@@ -12874,9 +12874,22 @@ namespace Sif.Specification.DataModel.Au {
                 this.startTimeField = value;
             }
         }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
+
+		[System.Xml.Serialization.XmlElement("StartTime")]
+		public string StartTimeString {
+			get {
+				return StartTime == null ? null : StartTime.Value.ToString("HH:mm:sszzz");
+			}
+			set {
+				System.DateTime val;
+				if (System.DateTime.TryParse(value, out val)) {
+					StartTime = val;
+				}
+			}
+		}
+
+		/// <remarks/>
+		[System.Xml.Serialization.XmlIgnoreAttribute()]
         public bool StartTimeSpecified {
             get {
                 return this.startTimeFieldSpecified;
@@ -12887,7 +12900,7 @@ namespace Sif.Specification.DataModel.Au {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(DataType="time", IsNullable=true)]
+        [System.Xml.Serialization.XmlIgnoreAttribute()]//[System.Xml.Serialization.XmlElementAttribute(DataType="time", IsNullable=true)]
         public System.Nullable<System.DateTime> EndTime {
             get {
                 return this.endTimeField;
@@ -12896,9 +12909,22 @@ namespace Sif.Specification.DataModel.Au {
                 this.endTimeField = value;
             }
         }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
+
+		[System.Xml.Serialization.XmlElement("EndTime")]
+		public string EndTimeString {
+			get {
+				return EndTime == null ? null : EndTime.Value.ToString("HH:mm:sszzz");
+			}
+			set {
+				System.DateTime val;
+				if (System.DateTime.TryParse(value, out val)) {
+					EndTime = val;
+				}
+			}
+		}
+
+		/// <remarks/>
+		[System.Xml.Serialization.XmlIgnoreAttribute()]
         public bool EndTimeSpecified {
             get {
                 return this.endTimeFieldSpecified;
@@ -40761,10 +40787,10 @@ namespace Sif.Specification.DataModel.Au {
                 this.activityDateFieldSpecified = value;
             }
         }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(DataType="time")]
-        public System.DateTime StartTime {
+
+		/// <remarks/>
+		[System.Xml.Serialization.XmlIgnoreAttribute()]//[System.Xml.Serialization.XmlElementAttribute(DataType="time")]
+		public System.DateTime StartTime {
             get {
                 return this.startTimeField;
             }
@@ -40772,9 +40798,22 @@ namespace Sif.Specification.DataModel.Au {
                 this.startTimeField = value;
             }
         }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
+
+		[System.Xml.Serialization.XmlElement("StartTime")]
+		public string StartTimeString {
+			get {
+				return StartTime.ToString("HH:mm:sszzz");
+			}
+			set {
+				System.DateTime val;
+				if (System.DateTime.TryParse(value, out val)) {
+					StartTime = val;
+				}
+			}
+		}
+
+		/// <remarks/>
+		[System.Xml.Serialization.XmlIgnoreAttribute()]
         public bool StartTimeSpecified {
             get {
                 return this.startTimeFieldSpecified;
@@ -40783,10 +40822,10 @@ namespace Sif.Specification.DataModel.Au {
                 this.startTimeFieldSpecified = value;
             }
         }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(DataType="time")]
-        public System.DateTime FinishTime {
+
+		/// <remarks/>
+		[System.Xml.Serialization.XmlIgnoreAttribute()]//[System.Xml.Serialization.XmlElementAttribute(DataType="time")]
+		public System.DateTime FinishTime {
             get {
                 return this.finishTimeField;
             }
@@ -40794,9 +40833,22 @@ namespace Sif.Specification.DataModel.Au {
                 this.finishTimeField = value;
             }
         }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
+
+		[System.Xml.Serialization.XmlElement("FinishTime")]
+		public string FinishTimeString {
+			get {
+				return FinishTime.ToString("HH:mm:sszzz");
+			}
+			set {
+				System.DateTime val;
+				if (System.DateTime.TryParse(value, out val)) {
+					FinishTime = val;
+				}
+			}
+		}
+
+		/// <remarks/>
+		[System.Xml.Serialization.XmlIgnoreAttribute()]
         public bool FinishTimeSpecified {
             get {
                 return this.finishTimeFieldSpecified;

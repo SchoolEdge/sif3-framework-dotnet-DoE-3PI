@@ -54,7 +54,13 @@ namespace Sif.Framework.Service.Sessions
             exeConfigurationFileMap.ExeConfigFilename = configurationFilePath;
             Configuration = ConfigurationManager.OpenMappedExeConfiguration(exeConfigurationFileMap, ConfigurationUserLevel.None);
 
-            if (!Configuration.HasFile)
+			if (!Configuration.HasFile) {
+				var fullPath = System.Reflection.Assembly.GetExecutingAssembly().Location;
+				exeConfigurationFileMap.ExeConfigFilename = System.IO.Path.GetDirectoryName(fullPath) + "\\SifFramework.config";
+				Configuration = ConfigurationManager.OpenMappedExeConfiguration(exeConfigurationFileMap, ConfigurationUserLevel.None);
+			}
+
+			if (!Configuration.HasFile)
             {
                 string message = String.Format("Missing configuration file {0}.", configurationFilePath);
                 throw new ConfigurationErrorsException(message);

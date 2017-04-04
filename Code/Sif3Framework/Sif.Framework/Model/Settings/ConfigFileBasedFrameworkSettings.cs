@@ -131,18 +131,22 @@ namespace Sif.Framework.Model.Settings
             exeConfigurationFileMap.ExeConfigFilename = configurationFilePath;
             configuration = ConfigurationManager.OpenMappedExeConfiguration(exeConfigurationFileMap, ConfigurationUserLevel.None);
 
-            if (!configuration.HasFile)
-            {
-                string message = String.Format("Missing configuration file {0}.", configurationFilePath);
-                throw new ConfigurationErrorsException(message);
-            }
+			if (!configuration.HasFile) {
+				var fullPath = System.Reflection.Assembly.GetExecutingAssembly().Location;
+				exeConfigurationFileMap.ExeConfigFilename = System.IO.Path.GetDirectoryName(fullPath) + "\\SifFramework.config";
+				configuration = ConfigurationManager.OpenMappedExeConfiguration(exeConfigurationFileMap, ConfigurationUserLevel.None);
+			}
 
-        }
+			if (!configuration.HasFile) {
+				string message = String.Format("Missing configuration file {0}.", configurationFilePath);
+				throw new ConfigurationErrorsException(message);
+			}
+		}
 
-        /// <summary>
-        /// <see cref="Sif.Framework.Model.Settings.IFrameworkSettings.ApplicationKey"/>
-        /// </summary>
-        public string ApplicationKey
+		/// <summary>
+		/// <see cref="Sif.Framework.Model.Settings.IFrameworkSettings.ApplicationKey"/>
+		/// </summary>
+		public string ApplicationKey
         {
 
             get
