@@ -64,7 +64,7 @@ namespace Sif.Framework.Utils
         /// <param name="contentTypeOverride">Overrides the ContentType header.</param>
         /// <param name="acceptOverride">Overrides the Accept header.</param>
         /// <returns></returns>
-        private static HttpWebRequest CreateHttpWebRequest(RequestMethod requestMethod, string url, AuthorisationToken authorisationToken, int? navigationPage = null, int? navigationPageSize = null, string methodOverride = null, string contentTypeOverride = null, string acceptOverride = null)
+        private static HttpWebRequest CreateHttpWebRequest(RequestMethod requestMethod, string url, AuthorisationToken authorisationToken, int? navigationPage = null, int? navigationPageSize = null, string methodOverride = null, string contentTypeOverride = null, string acceptOverride = null, Dictionary<string, string> additionalHeaders = null)
         {
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
             request.ContentType = "application/xml";
@@ -109,6 +109,11 @@ namespace Sif.Framework.Utils
             {
                 request.ContentType = contentTypeOverride.Trim();
             }
+
+			if(additionalHeaders != null) {
+				foreach (var header in additionalHeaders)
+					request.Headers[header.Key] = header.Value;
+			}
 
             return request;
         }
@@ -194,9 +199,9 @@ namespace Sif.Framework.Utils
         /// <param name="contentTypeOverride">Overrides the ContentType header.</param>
         /// <param name="acceptOverride">Overrides the Accept header.</param>
         /// <returns></returns>
-        private static string RequestWithPayload(RequestMethod requestMethod, string url, AuthorisationToken authorisationToken, string body, string methodOverride = null, string contentTypeOverride = null, string acceptOverride = null)
+        private static string RequestWithPayload(RequestMethod requestMethod, string url, AuthorisationToken authorisationToken, string body, string methodOverride = null, string contentTypeOverride = null, string acceptOverride = null, Dictionary<string, string> additionalHeaders = null)
         {
-            HttpWebRequest request = CreateHttpWebRequest(requestMethod, url, authorisationToken, methodOverride: methodOverride, contentTypeOverride: contentTypeOverride, acceptOverride: acceptOverride);
+            HttpWebRequest request = CreateHttpWebRequest(requestMethod, url, authorisationToken, methodOverride: methodOverride, contentTypeOverride: contentTypeOverride, acceptOverride: acceptOverride, additionalHeaders: additionalHeaders);
 
             using (Stream requestStream = request.GetRequestStream())
             {
@@ -315,9 +320,9 @@ namespace Sif.Framework.Utils
         /// <param name="contentTypeOverride">Overrides the ContentType header.</param>
         /// <param name="acceptOverride">Overrides the Accept header.</param>
         /// <returns></returns>
-        public static string PostRequest(string url, AuthorisationToken authorisationToken, string body, string methodOverride = null, string contentTypeOverride = null, string acceptOverride = null)
+        public static string PostRequest(string url, AuthorisationToken authorisationToken, string body, string methodOverride = null, string contentTypeOverride = null, string acceptOverride = null, Dictionary<string, string> additionalHeaders = null)
         {
-            return RequestWithPayload(RequestMethod.POST, url, authorisationToken, body, methodOverride, contentTypeOverride, acceptOverride);
+            return RequestWithPayload(RequestMethod.POST, url, authorisationToken, body, methodOverride, contentTypeOverride, acceptOverride, additionalHeaders: additionalHeaders);
         }
 
         /// <summary>
@@ -638,12 +643,12 @@ namespace Sif.Framework.Utils
 
             if (!string.IsNullOrWhiteSpace(zone))
             {
-                matrixParameters += ";zone=" + zone.Trim();
+                matrixParameters += ";zoneId=" + zone.Trim();
             }
 
             if (!string.IsNullOrWhiteSpace(context))
             {
-                matrixParameters += ";context=" + context.Trim();
+                matrixParameters += ";contextId=" + context.Trim();
             }
 
             return matrixParameters;

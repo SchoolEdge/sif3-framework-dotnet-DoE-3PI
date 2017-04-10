@@ -214,15 +214,40 @@ namespace Sif.Framework.Consumers
             return createResponse;
         }
 
-        /// <summary>
-        /// Convenience method that processes a MultipleCreateResponse message and fetches all successfully created jobs. It does this by issuing multiple individual query requests for any create status codes that start with a "2" (OK, Created, etc.).
-        /// </summary>
-        /// <param name="creates">A MutilpleCreateResponse object to parse</param>
-        /// <param name="jobName">The job name (singular) that the MultipleCreateResponse refers to</param>
-        /// <param name="zone">The zone in which to fetch the Jobs</param>
-        /// <param name="context">The context in which to fetch the Jobs</param>
-        /// <returns>The created Job objects</returns>
-        public virtual IList<Job> GetCreated(MultipleCreateResponse creates, string jobName, string zone = null, string context = null)
+		/// <summary>
+		/// Send a create operation to a specified phase on the specified job.
+		/// </summary>
+		/// <param name="job">The Job on which to execute the phase</param>
+		/// <param name="phaseName">The name of the phase</param>
+		/// <param name="body">The payload to send to the phase</param>
+		/// <param name="zone">The zone in which to operate</param>
+		/// <param name="context">The context in which to operate</param>
+		/// <param name="contentTypeOverride">The mime type of the data to be sent</param>
+		/// <param name="acceptOverride">The expected mime type of the result</param>
+		/// <returns>A string, possibly containing a serialized object, returned from the functional service</returns>
+		public virtual Job CreateHacked(Job job, string body = null, string zone = null, string context = null, string contentTypeOverride = null, string acceptOverride = null, Dictionary<string, string> additionalHeaders = null) {
+			checkRegistered();
+
+			checkJob(job, RightType.CREATE, zone);
+
+			string url = GetURLPrefix(job.Name) + "/" + job.Name + HttpUtils.MatrixParameters(zone, context);
+			string xml = HttpUtils.PostRequest(url, RegistrationService.AuthorisationToken, body, contentTypeOverride: contentTypeOverride, acceptOverride: acceptOverride, additionalHeaders: additionalHeaders);
+			if (log.IsDebugEnabled)
+				log.Debug("XML from POST request ...");
+			if (log.IsDebugEnabled)
+				log.Debug(xml);
+			return DeserialiseSingle<Job, jobType>(xml);
+		}
+
+		/// <summary>
+		/// Convenience method that processes a MultipleCreateResponse message and fetches all successfully created jobs. It does this by issuing multiple individual query requests for any create status codes that start with a "2" (OK, Created, etc.).
+		/// </summary>
+		/// <param name="creates">A MutilpleCreateResponse object to parse</param>
+		/// <param name="jobName">The job name (singular) that the MultipleCreateResponse refers to</param>
+		/// <param name="zone">The zone in which to fetch the Jobs</param>
+		/// <param name="context">The context in which to fetch the Jobs</param>
+		/// <returns>The created Job objects</returns>
+		public virtual IList<Job> GetCreated(MultipleCreateResponse creates, string jobName, string zone = null, string context = null)
         {
             if(creates == null)
             {
@@ -437,7 +462,7 @@ namespace Sif.Framework.Consumers
         /// <param name="contentTypeOverride">The mime type of the data to be sent</param>
         /// <param name="acceptOverride">The expected mime type of the result</param>
         /// <returns>A string, possibly containing a serialized object, returned from the functional service</returns>
-        public virtual string CreateToPhase(Job job, string phaseName, string body = null, string zone = null, string context = null, string contentTypeOverride = null, string acceptOverride = null)
+        public virtual string CreateToPhase(Job job, string phaseName, string body = null, string zone = null, string context = null, string contentTypeOverride = null, string acceptOverride = null, Dictionary<string, string> additionalHeaders = null)
         {
             checkRegistered();
 
@@ -445,7 +470,7 @@ namespace Sif.Framework.Consumers
 
             string response = null;
             string url = GetURLPrefix(job.Name) + "/" + job.Id + "/" + phaseName + HttpUtils.MatrixParameters(zone, context);
-            response = HttpUtils.PostRequest(url, RegistrationService.AuthorisationToken, body, contentTypeOverride: contentTypeOverride, acceptOverride: acceptOverride);
+            response = HttpUtils.PostRequest(url, RegistrationService.AuthorisationToken, body, contentTypeOverride: contentTypeOverride, acceptOverride: acceptOverride, additionalHeaders: additionalHeaders);
             if (log.IsDebugEnabled) log.Debug("String from CREATE request to phase ...");
             if (log.IsDebugEnabled) log.Debug(response);
             return response;

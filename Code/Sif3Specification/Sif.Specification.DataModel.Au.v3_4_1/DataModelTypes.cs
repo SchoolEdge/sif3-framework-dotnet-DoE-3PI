@@ -12688,8 +12688,10 @@ namespace Sif.Specification.DataModel.Au {
         private string staffLocalIdField;
         
         private NameOfRecordType nameField;
-        
-        private string associationField;
+
+		private bool nameFieldSpecified;
+
+		private string associationField;
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(DataType="token", IsNullable=true)]
@@ -12723,9 +12725,19 @@ namespace Sif.Specification.DataModel.Au {
                 this.nameField = value;
             }
         }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(DataType="normalizedString")]
+
+		[XmlIgnore]
+		public bool NameSpecified {
+			get {
+				return this.nameFieldSpecified;
+			}
+			set {
+				this.nameFieldSpecified = value;
+			}
+		}
+
+		/// <remarks/>
+		[System.Xml.Serialization.XmlElementAttribute(DataType="normalizedString")]
         public string Association {
             get {
                 return this.associationField;
@@ -12749,7 +12761,9 @@ namespace Sif.Specification.DataModel.Au {
         private string studentLocalIdField;
         
         private NameOfRecordType nameField;
-        
+
+		private bool nameFieldSpecified;
+
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(DataType="token", IsNullable=true)]
         public string StudentPersonalRefId {
@@ -12782,10 +12796,20 @@ namespace Sif.Specification.DataModel.Au {
                 this.nameField = value;
             }
         }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.0.30319.33440")]
+
+		[XmlIgnore]
+		public bool NameSpecified {
+			get {
+				return this.nameFieldSpecified;
+			}
+			set {
+				this.nameFieldSpecified = value;
+			}
+		}
+	}
+
+	/// <remarks/>
+	[System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.0.30319.33440")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
