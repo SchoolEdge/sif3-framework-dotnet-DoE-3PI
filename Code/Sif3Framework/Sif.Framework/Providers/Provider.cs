@@ -688,31 +688,31 @@ namespace Sif.Framework.Providers
                 foreach (deleteIdType deleteId in deleteRequest.deletes)
                 {
                     deleteStatus status = new deleteStatus();
-                    status.id = deleteId.id;
+                    status.id = deleteId.Id;
 
                     try
                     {
-                        service.Delete(deleteId.id, zone: (zoneId == null ? null : zoneId[0]), context: (contextId == null ? null : contextId[0]));
+                        service.Delete(deleteId.Id, zone: (zoneId == null ? null : zoneId[0]), context: (contextId == null ? null : contextId[0]));
                         status.statusCode = ((int)HttpStatusCode.NoContent).ToString();
                     }
                     catch (ArgumentException e)
                     {
-                        status.error = ProviderUtils.CreateError(HttpStatusCode.BadRequest, typeof(TSingle).Name, "Invalid argument: id=" + deleteId.id + ".\n" + e.Message);
+                        status.error = ProviderUtils.CreateError(HttpStatusCode.BadRequest, typeof(TSingle).Name, "Invalid argument: id=" + deleteId.Id + ".\n" + e.Message);
                         status.statusCode = ((int)HttpStatusCode.BadRequest).ToString();
                     }
                     catch (DeleteException e)
                     {
-                        status.error = ProviderUtils.CreateError(HttpStatusCode.BadRequest, typeof(TSingle).Name, "Request failed for object " + typeof(TSingle).Name + " with ID of " + deleteId.id + ".\n " + e.Message);
+                        status.error = ProviderUtils.CreateError(HttpStatusCode.BadRequest, typeof(TSingle).Name, "Request failed for object " + typeof(TSingle).Name + " with ID of " + deleteId.Id + ".\n " + e.Message);
                         status.statusCode = ((int)HttpStatusCode.BadRequest).ToString();
                     }
                     catch (NotFoundException e)
                     {
-                        status.error = ProviderUtils.CreateError(HttpStatusCode.NotFound, typeof(TSingle).Name, "Object " + typeof(TSingle).Name + " with ID of " + deleteId.id + " not found.\n" + e.Message);
+                        status.error = ProviderUtils.CreateError(HttpStatusCode.NotFound, typeof(TSingle).Name, "Object " + typeof(TSingle).Name + " with ID of " + deleteId.Id + " not found.\n" + e.Message);
                         status.statusCode = ((int)HttpStatusCode.NotFound).ToString();
                     }
                     catch (Exception e)
                     {
-                        status.error = ProviderUtils.CreateError(HttpStatusCode.InternalServerError, typeof(TSingle).Name, "Request failed for object " + typeof(TSingle).Name + " with ID of " + deleteId.id + ".\n " + e.Message);
+                        status.error = ProviderUtils.CreateError(HttpStatusCode.InternalServerError, typeof(TSingle).Name, "Request failed for object " + typeof(TSingle).Name + " with ID of " + deleteId.Id + ".\n " + e.Message);
                         status.statusCode = ((int)HttpStatusCode.InternalServerError).ToString();
                     }
 

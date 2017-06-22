@@ -476,7 +476,7 @@ namespace Sif.Framework.Consumers
 
             foreach (TPrimaryKey id in refIds)
             {
-                deleteIdType deleteId = new deleteIdType { id = id.ToString() };
+                deleteIdType deleteId = new deleteIdType { Id = id.ToString() };
                 deleteIds.Add(deleteId);
             }
 

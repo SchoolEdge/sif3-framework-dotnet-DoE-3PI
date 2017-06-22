@@ -436,7 +436,7 @@ namespace Sif.Framework.Consumers
 
             foreach (Job job in jobs)
             {
-                deleteIds.Add(new deleteIdType { id = job.Id.ToString() });
+                deleteIds.Add(new deleteIdType { Id = job.Id.ToString() });
             }
 
             deleteRequestType request = new deleteRequestType { deletes = deleteIds.ToArray() };

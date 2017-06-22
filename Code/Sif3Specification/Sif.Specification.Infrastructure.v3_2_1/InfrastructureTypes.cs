@@ -3119,7 +3119,7 @@ namespace Sif.Specification.Infrastructure {
         
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute(DataType="token")]
-        public string id {
+        public string Id {
             get {
                 return this.idField;
             }

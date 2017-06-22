@@ -386,39 +386,39 @@ namespace Sif.Framework.Providers
                 try
                 {
                     if (SettingsManager.ProviderSettings.JobBinding
-                        && !service.IsBound(Guid.Parse(deleteId.id), getOwnerId(sessionToken)))
+                        && !service.IsBound(Guid.Parse(deleteId.Id), getOwnerId(sessionToken)))
                     {
                         throw new InvalidSessionException("Request failed as job does not belong to this consumer.");
                     }
 
-                    service.Delete(Guid.Parse(deleteId.id), zone: (zone == null ? null : zone[0]), context: (context == null ? null : context[0]));
+                    service.Delete(Guid.Parse(deleteId.Id), zone: (zone == null ? null : zone[0]), context: (context == null ? null : context[0]));
 
                     if (SettingsManager.ProviderSettings.JobBinding)
                     {
-                        service.Unbind(Guid.Parse(deleteId.id));
+                        service.Unbind(Guid.Parse(deleteId.Id));
                     }
 
-                    statuses.Add(ProviderUtils.CreateDelete(HttpStatusCode.OK, deleteId.id));
+                    statuses.Add(ProviderUtils.CreateDelete(HttpStatusCode.OK, deleteId.Id));
                 }
                 catch (ArgumentException e)
                 {
-                    statuses.Add(ProviderUtils.CreateDelete(HttpStatusCode.BadRequest, deleteId.id, ProviderUtils.CreateError(HttpStatusCode.BadRequest, serviceName, "Invalid argument: id=" + deleteId.id + ".\n" + e.Message)));
+                    statuses.Add(ProviderUtils.CreateDelete(HttpStatusCode.BadRequest, deleteId.Id, ProviderUtils.CreateError(HttpStatusCode.BadRequest, serviceName, "Invalid argument: id=" + deleteId.Id + ".\n" + e.Message)));
                 }
                 catch (DeleteException e)
                 {
-                    statuses.Add(ProviderUtils.CreateDelete(HttpStatusCode.BadRequest, deleteId.id, ProviderUtils.CreateError(HttpStatusCode.BadRequest, serviceName, "Request failed for object " + serviceName + " with ID of " + deleteId.id + ".\n " + e.Message)));
+                    statuses.Add(ProviderUtils.CreateDelete(HttpStatusCode.BadRequest, deleteId.Id, ProviderUtils.CreateError(HttpStatusCode.BadRequest, serviceName, "Request failed for object " + serviceName + " with ID of " + deleteId.Id + ".\n " + e.Message)));
                 }
                 catch (NotFoundException e)
                 {
-                    statuses.Add(ProviderUtils.CreateDelete(HttpStatusCode.NotFound, deleteId.id, ProviderUtils.CreateError(HttpStatusCode.BadRequest, serviceName, "Object " + serviceName + " with ID of " + deleteId.id + " not found.\n" + e.Message)));
+                    statuses.Add(ProviderUtils.CreateDelete(HttpStatusCode.NotFound, deleteId.Id, ProviderUtils.CreateError(HttpStatusCode.BadRequest, serviceName, "Object " + serviceName + " with ID of " + deleteId.Id + " not found.\n" + e.Message)));
                 }
                 catch (InvalidSessionException e)
                 {
-                    statuses.Add(ProviderUtils.CreateDelete(HttpStatusCode.BadRequest, deleteId.id, ProviderUtils.CreateError(HttpStatusCode.BadRequest, serviceName, "Request failed for object " + serviceName + " with ID of " + deleteId.id + ", job doesn't belong to this consumer.\n " + e.Message)));
+                    statuses.Add(ProviderUtils.CreateDelete(HttpStatusCode.BadRequest, deleteId.Id, ProviderUtils.CreateError(HttpStatusCode.BadRequest, serviceName, "Request failed for object " + serviceName + " with ID of " + deleteId.Id + ", job doesn't belong to this consumer.\n " + e.Message)));
                 }
                 catch (Exception e)
                 {
-                    statuses.Add(ProviderUtils.CreateDelete(HttpStatusCode.InternalServerError, deleteId.id, ProviderUtils.CreateError(HttpStatusCode.BadRequest, serviceName, "Request failed for object " + serviceName + " with ID of " + deleteId.id + ".\n " + e.Message)));
+                    statuses.Add(ProviderUtils.CreateDelete(HttpStatusCode.InternalServerError, deleteId.Id, ProviderUtils.CreateError(HttpStatusCode.BadRequest, serviceName, "Request failed for object " + serviceName + " with ID of " + deleteId.Id + ".\n " + e.Message)));
                 }
             }
 

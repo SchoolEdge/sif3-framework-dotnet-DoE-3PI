@@ -139,7 +139,7 @@ namespace Sif.Framework.Service.Mapper
 
                 foreach (deleteIdType deleteId in (deleteIdType[])context.SourceValue)
                 {
-                    deleteIds.Add(deleteId.id);
+                    deleteIds.Add(deleteId.Id);
                 }
 
                 return deleteIds;
