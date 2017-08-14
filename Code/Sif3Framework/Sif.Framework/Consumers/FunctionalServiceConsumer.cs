@@ -225,19 +225,20 @@ namespace Sif.Framework.Consumers
 		/// <param name="contentTypeOverride">The mime type of the data to be sent</param>
 		/// <param name="acceptOverride">The expected mime type of the result</param>
 		/// <returns>A string, possibly containing a serialized object, returned from the functional service</returns>
-		public virtual Job CreateHacked(Job job, string body = null, string zone = null, string context = null, string contentTypeOverride = null, string acceptOverride = null, Dictionary<string, string> additionalHeaders = null) {
-			checkRegistered();
+        public virtual Job CreateHacked(Job job, string body = null, string zone = null, string context = null, string contentTypeOverride = null, string acceptOverride = null, Dictionary<string, string> additionalHeaders = null)
+        {
+            checkRegistered();
 
-			checkJob(job, RightType.CREATE, zone);
+            //checkJob(job, RightType.CREATE, zone);
 
-			string url = GetURLPrefix(job.Name) + "/" + job.Name + HttpUtils.MatrixParameters(zone, context);
-			string xml = HttpUtils.PostRequest(url, RegistrationService.AuthorisationToken, body, contentTypeOverride: contentTypeOverride, acceptOverride: acceptOverride, additionalHeaders: additionalHeaders);
-			if (log.IsDebugEnabled)
-				log.Debug("XML from POST request ...");
-			if (log.IsDebugEnabled)
-				log.Debug(xml);
-			return DeserialiseSingle<Job, jobType>(xml);
-		}
+            string url = GetURLPrefix(job.Name) + "/" + job.Name + HttpUtils.MatrixParameters(zone, context);
+            string xml = HttpUtils.PostRequest(url, RegistrationService.AuthorisationToken, body, contentTypeOverride: contentTypeOverride, acceptOverride: acceptOverride, additionalHeaders: additionalHeaders);
+            if (log.IsDebugEnabled)
+                log.Debug("XML from POST request ...");
+            if (log.IsDebugEnabled)
+                log.Debug(xml);
+            return DeserialiseSingle<Job, jobType>(xml);
+        }
 
 		/// <summary>
 		/// Convenience method that processes a MultipleCreateResponse message and fetches all successfully created jobs. It does this by issuing multiple individual query requests for any create status codes that start with a "2" (OK, Created, etc.).
@@ -605,10 +606,10 @@ namespace Sif.Framework.Consumers
                 throw new ArgumentException("Job must have an Id for any non-creation operation");
             }
             
-            if(service.Rights[right.ToString()].Value.Equals(RightValue.REJECTED.ToString()))
+            if (service.Rights[right.ToString()].Value.Equals(RightValue.REJECTED.ToString()))
             {
                 throw new ArgumentException("The attempted operation is not permitted in the ACL of the current environment");
-            }
+            }            
         }
 
         private string checkJobs(IList<Job> jobs, RightType right, string zone = null)

@@ -66,6 +66,7 @@ namespace Sif.Framework.Utils
         /// <returns></returns>
         private static HttpWebRequest CreateHttpWebRequest(RequestMethod requestMethod, string url, AuthorisationToken authorisationToken, int? navigationPage = null, int? navigationPageSize = null, string methodOverride = null, string contentTypeOverride = null, string acceptOverride = null, Dictionary<string, string> additionalHeaders = null)
         {
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
             request.ContentType = "application/xml";
             request.Method = requestMethod.ToString();

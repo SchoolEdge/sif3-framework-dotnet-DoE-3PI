@@ -24,7 +24,7 @@ namespace Sif.Framework.Utils
         public static Model.Infrastructure.Service GetService(ProvisionedZone zone, string name, ServiceType type)
         {
             return (from service in zone.Services
-                where service.Type.Equals(type.ToString()) && service.Name.Equals(name)
+                where service.Type.Equals(type.ToString()) && service.Name.Equals(name) //&& service.ContextId??
                 select service).FirstOrDefault();
         }
     }
